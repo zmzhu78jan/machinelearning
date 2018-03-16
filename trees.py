@@ -68,6 +68,32 @@ def create_tree(dataset, labels):
     return mytree
         
         
+def classify(input_tree, feat_labels, test_vec):
+    firststr = input_tree.keys()[0]
+    second_dict = input_tree[firststr]
+    feat_index = feat_labels.index(firststr)
+    class_label = None
+    for key in second_dict.keys():
+        if test_vec[feat_index] == key:
+            if type(second_dict[key]).__name__ == "dict":
+                class_label = classify(second_dict[key], feat_labels, test_vec)
+            else:
+                class_label = second_dict[key]
+    return class_label
 
+    
+def store_tree(input_tree, filename):
+    import pickle
+    fw = open(filename, "w")
+    pickle.dump(input_tree, fw)
+    fw.close()
+
+    
+def grab_tree(filename):
+    import pickle
+    fr = open(filename)
+    return pickle.load(fr)
+    
+    
     
     
