@@ -1,6 +1,7 @@
 #coding=utf-8
 import trees
 import unittest
+import treeplotter
 
 class TreesTest(unittest.TestCase):
     def create_my_dataset(self):
@@ -30,6 +31,14 @@ class TreesTest(unittest.TestCase):
         trees.store_tree(mytree, filename)
         mytree2 = trees.grab_tree(filename)
         self.assertEqual(mytree, mytree2)
+        
+    def test_examples(self):
+        fr = open("machinelearninginaction/Ch03/lenses.txt")
+        lenses = [inst.strip().split("\t") for inst in fr.readlines()]
+        lenses_labels = ["age", "prescript", "astigmatic", "tearrate"]
+        lenses_tree = trees.create_tree(lenses, lenses_labels)
+        treeplotter.create_plot(lenses_tree)
+        
         
 if __name__ == "__main__":
     unittest.main()
